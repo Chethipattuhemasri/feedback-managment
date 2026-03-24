@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback Form</title>
+</head>
+<body>
+
+<h2>Feedback Form</h2>
+
+<form id="feedbackForm">
+    <input type="text" id="name" placeholder="Name"><br><br>
+    <input type="email" id="email" placeholder="Email"><br><br>
+    <input type="number" id="rating" placeholder="Rating (1-5)"><br><br>
+    <textarea id="comments" placeholder="Comments"></textarea><br><br>
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+document.getElementById("feedbackForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const data = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        rating: document.getElementById("rating").value,
+        comments: document.getElementById("comments").value
+    };
+
+    fetch("http://localhost:3000/feedback", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => alert(res.message))
+    .catch(err => alert("Error submitting feedback"));
+});
+</script>
+
+</body>
+</html>
